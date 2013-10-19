@@ -4,8 +4,12 @@ import entities.Feedback2013Comments;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
 import beans.Feedback2013CommentsFacade;
+import entities.FacultySubject;
+import entities.Feedback2013Student;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -86,6 +90,73 @@ public class Feedback2013CommentsController implements Serializable {
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
+        }
+    }
+
+    public String createComment(int type) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        String uid = facesContext.getExternalContext().getRemoteUser();
+        //String uid = "100";
+        Feedback2013StudentController studentController = (Feedback2013StudentController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "feedback2013StudentController");
+        FacultySubjectController facultySubjectController = (FacultySubjectController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "facultySubjectController");
+
+        Feedback2013Student fs = studentController.getFeedback2013Student(Integer.parseInt(uid));
+        List<FacultySubject> l;
+        if (type == 0) {
+            l = facultySubjectController.getTheory();
+        } else {
+            l = facultySubjectController.getTheory();
+        }
+
+        for (FacultySubject item : l) {
+            prepareCreate();
+            current.setUid(fs);
+            if (type == 0) {
+                current.setComments(item.getTheoryComment());
+            } else {
+                current.setComments(item.getPracticalComment());
+            }
+
+            current.setIdFacultySubject(item);
+            create();
+        }
+        if (type == 0) {
+            return "CommentPractical?faces-redirect=true";
+        } else {
+            return "SelectSubject?faces-redirect=true";
+        }
+    }
+    
+    public String editComment(int type) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        String uid = facesContext.getExternalContext().getRemoteUser();
+        //String uid = "100";
+        Feedback2013StudentController studentController = (Feedback2013StudentController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "feedback2013StudentController");
+        FacultySubjectController facultySubjectController = (FacultySubjectController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "facultySubjectController");
+
+        Feedback2013Student fs = studentController.getFeedback2013Student(Integer.parseInt(uid));
+        List<FacultySubject> l;
+        if (type == 0) {
+            l = facultySubjectController.getTheory();
+        } else {
+            l = facultySubjectController.getTheory();
+        }
+        for (FacultySubject item : l) {
+            prepareCreate();
+            current.setUid(fs);
+            if (type == 0) {
+                current.setComments(item.getTheoryComment());
+            } else {
+                current.setComments(item.getPracticalComment());
+            }
+
+            current.setIdFacultySubject(item);
+            create();
+        }
+        if (type == 0) {
+            return "SelectSubject?faces-redirect=true";
+        } else {
+            return "SelectSubject?faces-redirect=true";
         }
     }
 

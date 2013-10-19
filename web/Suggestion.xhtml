@@ -25,10 +25,10 @@
 
 
                 <br />
-                <p:inputTextarea rows="6" cols="50" id="ss" value="" title="" />
+                <p:inputTextarea rows="6" cols="50" id="ss" value="#{feedback2013SuggestionsController.selected.suggestions}" title="" />
                 <br />
                 <br />
-                <p:commandButton update =":mySuggestions,ss,messagePanel" value="Submit" action="" />
+                <p:commandButton value="Submit" action="#{feedback2013SuggestionsController.create()}" />
 
             </h:form>
             <br />

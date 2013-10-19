@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -81,6 +82,10 @@ public class Feedback2013Student implements Serializable {
         @JoinColumn(name = "id_course", referencedColumnName = "id_course")})
     @ManyToOne(optional = false)
     private ProgramCourse programCourse;
+    @Transient
+    private boolean submitTheory;
+    @Transient
+    private boolean submitPractical;
 
     public Feedback2013Student() {
     }
@@ -96,6 +101,24 @@ public class Feedback2013Student implements Serializable {
         this.division = division;
     }
 
+    public boolean isSubmitTheory() {
+        return submitTheory;
+    }
+
+    public void setSubmitTheory(boolean submitTheory) {
+        this.submitTheory = submitTheory;
+    }
+
+    public boolean isSubmitPractical() {
+        return submitPractical;
+    }
+
+    public void setSubmitPractical(boolean submitPractical) {
+        this.submitPractical = submitPractical;
+    }
+
+    
+    
     public Integer getUid() {
         return uid;
     }

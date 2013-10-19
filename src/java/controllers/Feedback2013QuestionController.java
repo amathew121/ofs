@@ -116,8 +116,8 @@ public class Feedback2013QuestionController implements Serializable {
 
     public Program getProgram() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        //String uid = facesContext.getExternalContext().getRemoteUser();
-        String uid = "100";
+        String uid = facesContext.getExternalContext().getRemoteUser();
+        //String uid = "100";
         Feedback2013StudentController studentController = (Feedback2013StudentController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "feedback2013StudentController");
         Feedback2013Student fs = studentController.getFeedback2013Student(Integer.parseInt(uid));
 
@@ -163,8 +163,8 @@ public class Feedback2013QuestionController implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         FacultySubjectController facultySubjectController = (FacultySubjectController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "facultySubjectController");
         Feedback2013Controller feedbackController = (Feedback2013Controller) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "feedback2013Controller");
-        //String uid = facesContext.getExternalContext().getRemoteUser();
-        String uid = "100";
+        String uid = facesContext.getExternalContext().getRemoteUser();
+        //String uid = "100";
         Feedback2013StudentController studentController = (Feedback2013StudentController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "feedback2013StudentController");
         Feedback2013Student fs = studentController.getFeedback2013Student(Integer.parseInt(uid));
         List<FacultySubject> l = new ArrayList<>();
@@ -173,6 +173,10 @@ public class Feedback2013QuestionController implements Serializable {
         } else if (type == 1) {
             l = facultySubjectController.getPractical();
 
+        }
+        if (l == null)
+        {
+            return submit(type);
         }
         for (FacultySubject item : l) {
             //feedbackController.prepareCreate();

@@ -73,6 +73,10 @@ public class FacultySubject implements Serializable {
     private int rating;
     @Transient
     private int rating2;
+    @Transient
+    private String theoryComment;
+    @Transient
+    private String practicalComment;
     
     public FacultySubject() {
     }
@@ -103,6 +107,22 @@ public class FacultySubject implements Serializable {
 
     public void setRating2(int rating2) {
         this.rating2 = rating2;
+    }
+
+    public String getTheoryComment() {
+        return theoryComment;
+    }
+
+    public void setTheoryComment(String theoryComment) {
+        this.theoryComment = theoryComment;
+    }
+
+    public String getPracticalComment() {
+        return practicalComment;
+    }
+
+    public void setPracticalComment(String practicalComment) {
+        this.practicalComment = practicalComment;
     }
     
     

@@ -4,6 +4,8 @@
  */
 package beans;
 
+import controllers.Feedback2013StudentController;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -28,6 +30,11 @@ public String logout() {
 String result="/index?faces-redirect=true";
 
 FacesContext context = FacesContext.getCurrentInstance();
+Feedback2013StudentController studentController = (Feedback2013StudentController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "feedback2013StudentController");
+studentController.getSelected().setLogoutTime(new Date());
+studentController.update();
+
+
 HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
 
 try {

@@ -91,11 +91,20 @@ public class FacultySubjectController implements Serializable {
         l = new ArrayList<>();
         p = new ArrayList<>();
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        //String uid = facesContext.getExternalContext().getRemoteUser();
-        String uid = "100";
+        String uid = facesContext.getExternalContext().getRemoteUser();
+        //String uid = "100";
         Feedback2013StudentController studentController = (Feedback2013StudentController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "feedback2013StudentController");
+        Feedback2013QuestionController questionController = (Feedback2013QuestionController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "feedback2013QuestionController");
         SubjectController subjectController = (SubjectController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "subjectController");
         Feedback2013Student fs = studentController.getFeedback2013Student(Integer.parseInt(uid));
+        studentController.setSelected(fs);
+        studentController.getSelected().setBatch(batch);
+        studentController.getSelected().setLoginStatus(Boolean.TRUE);
+        studentController.update();
+        questionController.setSubmitPractical(false);
+        questionController.setSubmitTheory(false);
+        System.out.println(fs.getUid()+" "+ fs.getProgramCourse() + " " + fs.getSemester() + " " + fs.getDivision() + " " + fs.getBatch());
+                
         List<Subject> subjectList = subjectController.getSubjectBySemester(fs);
         for (Subject s : subjectList) {
             FacultySubject temp = getFacade().findByBatch(fs, s, (short) 0);
@@ -111,7 +120,7 @@ public class FacultySubjectController implements Serializable {
             }
         }
 
-        return "SelectSubject?faces-redirect=true";
+        return "CommentTheory?faces-redirect=true";
     }
 
     public String prepareCreate() {
