@@ -105,7 +105,7 @@ public class Feedback2013CommentsController implements Serializable {
         if (type == 0) {
             l = facultySubjectController.getTheory();
         } else {
-            l = facultySubjectController.getTheory();
+            l = facultySubjectController.getPractical();
         }
 
         for (FacultySubject item : l) {
@@ -139,7 +139,7 @@ public class Feedback2013CommentsController implements Serializable {
         if (type == 0) {
             l = facultySubjectController.getTheory();
         } else {
-            l = facultySubjectController.getTheory();
+            l = facultySubjectController.getPractical();
         }
         for (FacultySubject item : l) {
             prepareCreate();

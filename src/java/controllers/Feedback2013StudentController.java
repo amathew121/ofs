@@ -65,11 +65,11 @@ public class Feedback2013StudentController implements Serializable {
         }
         return pagination;
     }
-    
+
     public void setSelected(Feedback2013Student fs) {
         this.current = fs;
     }
-    
+
     public Feedback2013Student getLoggedUser() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         String uid = facesContext.getExternalContext().getRemoteUser();
@@ -77,33 +77,32 @@ public class Feedback2013StudentController implements Serializable {
         return getFeedback2013Student(Integer.parseInt(uid));
 
     }
-    
-        public void prepareListUser() {
-            current = getLoggedUser();
-            current.setLoginTime(new Date());
-            update();
+
+    public void prepareListUser() {
+        current = getLoggedUser();
+        current.setLoginTime(new Date());
+        update();
         try {
             if (getLoggedUser().getLogoutTime() == null) {
-             if(!getLoggedUser().getLoginStatus()){
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/SelectBatch.xhtml");
+                if (!getLoggedUser().getLoginStatus()) {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/SelectBatch.xhtml");
 
-             }
-             else 
-             {
-                                 FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/SelectSubject.xhtml");
+                } else {
+                    FacultySubjectController fsc = (FacultySubjectController) FacesContext.getCurrentInstance().getApplication().getELResolver().getValue(FacesContext.getCurrentInstance().getELContext(), null, "facultySubjectController");
+                    
+                    fsc.prepareDetails(getLoggedUser().getBatch());
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/SelectSubject.xhtml");
 
-             }
-            }
-            else 
-             {
+                }
+            } else {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/errorRelogin.xhtml");
 
-             }
+            }
         } catch (IOException ex) {
             Logger.getLogger(Feedback2013StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-        
+
     public String prepareList() {
         recreateModel();
         return "List";
@@ -157,7 +156,7 @@ public class Feedback2013StudentController implements Serializable {
         recreateModel();
         return "List";
     }
-    
+
     public List<Feedback2013Student> findAll() {
         return getFacade().findAll();
     }
