@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -38,11 +39,19 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Faculty.findByFacultyMobile", query = "SELECT f FROM Faculty f WHERE f.facultyMobile = :facultyMobile"),
     @NamedQuery(name = "Faculty.findByFacultyEmail", query = "SELECT f FROM Faculty f WHERE f.facultyEmail = :facultyEmail"),
     @NamedQuery(name = "Faculty.findByFacultyPassword", query = "SELECT f FROM Faculty f WHERE f.facultyPassword = :facultyPassword"),
-    @NamedQuery(name = "Faculty.findByFacultyDepartment", query = "SELECT f FROM Faculty f WHERE f.facultyDepartment = :facultyDepartment"),
+    @NamedQuery(name = "Faculty.findByFacultyDepartment", query = "SELECT f FROM Faculty f WHERE f.facultyDepartment = :facultyDepartment "),
     @NamedQuery(name = "Faculty.findByFacultyLastLogin", query = "SELECT f FROM Faculty f WHERE f.facultyLastLogin = :facultyLastLogin"),
     @NamedQuery(name = "Faculty.findByFacultyTitle", query = "SELECT f FROM Faculty f WHERE f.facultyTitle = :facultyTitle"),
     @NamedQuery(name = "Faculty.findByFacultyShowFeedback", query = "SELECT f FROM Faculty f WHERE f.facultyShowFeedback = :facultyShowFeedback")})
 public class Faculty implements Serializable {
+    @OneToMany(mappedBy = "idFaculty")
+    private List<F360PeerInteraction> f360PeerInteractionList;
+    @Column(name = "Feedback360_allowed")
+    private Boolean feedback360allowed;
+    @OneToMany(mappedBy = "idFaculty")
+    private List<F360FeedbackPeer> f360FeedbackPeerList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFaculty")
+    private List<F360CommentsPeer> f360CommentsPeerList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -80,7 +89,11 @@ public class Faculty implements Serializable {
     private Boolean facultyShowFeedback;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFaculty")
     private List<FacultySubject> facultySubjectList;
-
+    
+    
+    @Transient
+    private Boolean peerInteract;
+    
     public Faculty() {
     }
 
@@ -205,6 +218,49 @@ public class Faculty implements Serializable {
     @Override
     public String toString() {
         return "entities.Faculty[ idFaculty=" + idFaculty + " ]";
+    }
+
+    public Boolean getFeedback360allowed() {
+        return feedback360allowed;
+    }
+
+    public void setFeedback360allowed(Boolean feedback360allowed) {
+        this.feedback360allowed = feedback360allowed;
+    }
+
+    @XmlTransient
+    public List<F360FeedbackPeer> getF360FeedbackPeerList() {
+        return f360FeedbackPeerList;
+    }
+
+    public void setF360FeedbackPeerList(List<F360FeedbackPeer> f360FeedbackPeerList) {
+        this.f360FeedbackPeerList = f360FeedbackPeerList;
+    }
+
+    @XmlTransient
+    public List<F360CommentsPeer> getF360CommentsPeerList() {
+        return f360CommentsPeerList;
+    }
+
+    public void setF360CommentsPeerList(List<F360CommentsPeer> f360CommentsPeerList) {
+        this.f360CommentsPeerList = f360CommentsPeerList;
+    }
+
+    @XmlTransient
+    public List<F360PeerInteraction> getF360PeerInteractionList() {
+        return f360PeerInteractionList;
+    }
+
+    public void setF360PeerInteractionList(List<F360PeerInteraction> f360PeerInteractionList) {
+        this.f360PeerInteractionList = f360PeerInteractionList;
+    }
+
+    public Boolean getPeerInteract() {
+        return peerInteract;
+    }
+
+    public void setPeerInteract(Boolean peerInteract) {
+        this.peerInteract = peerInteract;
     }
     
 }

@@ -4,19 +4,17 @@
  */
 package beans;
 
-import entities.Faculty;
-import java.util.List;
+import entities.F360QuestionDepartment;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
  * @author piit
  */
 @Stateless
-public class FacultyFacade extends AbstractFacade<Faculty> {
+public class F360QuestionDepartmentFacade extends AbstractFacade<F360QuestionDepartment> {
     @PersistenceContext(unitName = "FeedbackJPAPU")
     private EntityManager em;
 
@@ -25,15 +23,8 @@ public class FacultyFacade extends AbstractFacade<Faculty> {
         return em;
     }
 
-    public FacultyFacade() {
-        super(Faculty.class);
-    }
-    
-    public List findByDepartment (String department) {
-        Query q = em.createNamedQuery("Faculty.findByFacultyDepartment");
-        q.setParameter("facultyDepartment", department);
-        return q.getResultList();
-        
+    public F360QuestionDepartmentFacade() {
+        super(F360QuestionDepartment.class);
     }
     
 }

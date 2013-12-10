@@ -1,15 +1,11 @@
 package controllers;
 
-import entities.Faculty;
+import entities.F360User;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
-import beans.FacultyFacade;
+import beans.F360UserFacade;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -22,29 +18,29 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@Named("facultyController")
+@Named("f360UserController")
 @SessionScoped
-public class FacultyController implements Serializable {
+public class F360UserController implements Serializable {
 
-    private Faculty current;
+    private F360User current;
     private DataModel items = null;
     @EJB
-    private beans.FacultyFacade ejbFacade;
+    private beans.F360UserFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public FacultyController() {
+    public F360UserController() {
     }
 
-    public Faculty getSelected() {
+    public F360User getSelected() {
         if (current == null) {
-            current = new Faculty();
+            current = new F360User();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private FacultyFacade getFacade() {
+    private F360UserFacade getFacade() {
         return ejbFacade;
     }
 
@@ -71,13 +67,13 @@ public class FacultyController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Faculty) getItems().getRowData();
+        current = (F360User) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Faculty();
+        current = new F360User();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -85,7 +81,7 @@ public class FacultyController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FacultyCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("F360UserCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -94,7 +90,7 @@ public class FacultyController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Faculty) getItems().getRowData();
+        current = (F360User) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -102,7 +98,7 @@ public class FacultyController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FacultyUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("F360UserUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -111,7 +107,7 @@ public class FacultyController implements Serializable {
     }
 
     public String destroy() {
-        current = (Faculty) getItems().getRowData();
+        current = (F360User) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -135,7 +131,7 @@ public class FacultyController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FacultyDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("F360UserDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -191,61 +187,30 @@ public class FacultyController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Faculty getFaculty(java.lang.String id) {
+    public F360User getF360User(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    public List<Faculty> getFacultyList(String department) {
-        List<Faculty> list1;
-        List<Faculty> list2;
-        List<Faculty> list = new ArrayList<>();
-        if (department.equals("CS") || department.equals("IT")) {
-            list1 = getFacade().findByDepartment("CS");
-            list2 = getFacade().findByDepartment("IT");
-            list.addAll(list1);
-            list.addAll(list2);
-        } else if (department.equals("EX") || department.equals("ET")) {
-            list1 = getFacade().findByDepartment("EX");
-            list2 = getFacade().findByDepartment("ET");
-            list.addAll(list1);
-            list.addAll(list2);
-        } else if (department.equals("ME") || department.equals("AE")) {
-            list1 = getFacade().findByDepartment("ME");
-            list2 = getFacade().findByDepartment("AE");
-            list.addAll(list1);
-            list.addAll(list2);
-        } else {
-            list = getFacade().findByDepartment(department);
-        }
-
-        Collections.sort(list, new Comparator<Faculty>() {
-            public int compare(Faculty o1, Faculty o2) {
-                return o1.getFacultyFname().compareTo(o2.getFacultyFname());
-            }
-        });
-        return list;
-    }
-
-    @FacesConverter(forClass = Faculty.class)
-    public static class FacultyControllerConverter implements Converter {
+    @FacesConverter(forClass = F360User.class)
+    public static class F360UserControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            FacultyController controller = (FacultyController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "facultyController");
-            return controller.getFaculty(getKey(value));
+            F360UserController controller = (F360UserController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "f360UserController");
+            return controller.getF360User(getKey(value));
         }
 
-        java.lang.String getKey(String value) {
-            java.lang.String key;
-            key = value;
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.String value) {
+        String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -256,11 +221,11 @@ public class FacultyController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Faculty) {
-                Faculty o = (Faculty) object;
-                return getStringKey(o.getIdFaculty());
+            if (object instanceof F360User) {
+                F360User o = (F360User) object;
+                return getStringKey(o.getUid());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Faculty.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + F360User.class.getName());
             }
         }
     }

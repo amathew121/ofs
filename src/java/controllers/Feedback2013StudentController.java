@@ -83,7 +83,12 @@ public class Feedback2013StudentController implements Serializable {
         current.setLoginTime(new Date());
         update();
         try {
-            if (getLoggedUser().getLogoutTime() == null) {
+            if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("staff"))
+            {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/f360/SelectSubject.xhtml");
+            }
+            
+            else if (getLoggedUser().getLogoutTime() == null) {
                 if (!getLoggedUser().getLoginStatus()) {
                     FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/SelectBatch.xhtml");
 

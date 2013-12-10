@@ -1,50 +1,54 @@
 package controllers;
 
-import entities.Faculty;
+import entities.F360PeerInteraction;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
-import beans.FacultyFacade;
+import beans.F360PeerInteractionFacade;
+import entities.F360User;
+import entities.Faculty;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@Named("facultyController")
+@Named("f360PeerInteractionController")
 @SessionScoped
-public class FacultyController implements Serializable {
+public class F360PeerInteractionController implements Serializable {
 
-    private Faculty current;
+    private F360PeerInteraction current;
     private DataModel items = null;
     @EJB
-    private beans.FacultyFacade ejbFacade;
+    private beans.F360PeerInteractionFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    private HashMap<String, Boolean> value = new HashMap<>();  
+    //private boolean value;
 
-    public FacultyController() {
+    public F360PeerInteractionController() {
     }
 
-    public Faculty getSelected() {
+    public F360PeerInteraction getSelected() {
         if (current == null) {
-            current = new Faculty();
+            current = new F360PeerInteraction();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private FacultyFacade getFacade() {
+    private F360PeerInteractionFacade getFacade() {
         return ejbFacade;
     }
 
@@ -71,13 +75,13 @@ public class FacultyController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Faculty) getItems().getRowData();
+        current = (F360PeerInteraction) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Faculty();
+        current = new F360PeerInteraction();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -85,16 +89,49 @@ public class FacultyController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FacultyCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("F360PeerInteractionCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
+    
+    public F360PeerInteraction getByIdFac(Faculty idFaculty){
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        F360UserController f360UserController = (F360UserController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "f360UserController");
+        String uid = facesContext.getExternalContext().getRemoteUser();
+        F360User username = f360UserController.getF360User(Integer.parseInt(uid));
+        return getFacade().getByIdFac(idFaculty, username);
+    }
+    
+    public void ajaxCreate() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Faculty idFaculty = facesContext.getApplication().evaluateExpressionGet(facesContext, "#{item}", Faculty.class);
+        F360UserController f360UserController = (F360UserController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "f360UserController");
+        String uid = facesContext.getExternalContext().getRemoteUser();
+        F360User username = f360UserController.getF360User(Integer.parseInt(uid));
+        String summary = value.get(idFaculty.getIdFaculty()) == false ? "Checked" : "Unchecked";
+        prepareCreate();
+        if(value.get(idFaculty.getIdFaculty()) == false) {
+        current.setIdF360PeerInteraction(0);
+        current.setIdFaculty(idFaculty);
+        current.setUid(username);
+        create();
+        }
+        else {
+            current = getFacade().getByIdFac(idFaculty, username);
+            if (current !=null)
+            {
+                performDestroy();
+            }
+        }
+        facesContext.addMessage(null, new FacesMessage(summary));  
+        
+    }
 
     public String prepareEdit() {
-        current = (Faculty) getItems().getRowData();
+        current = (F360PeerInteraction) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -102,7 +139,7 @@ public class FacultyController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FacultyUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("F360PeerInteractionUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -111,7 +148,7 @@ public class FacultyController implements Serializable {
     }
 
     public String destroy() {
-        current = (Faculty) getItems().getRowData();
+        current = (F360PeerInteraction) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -135,7 +172,7 @@ public class FacultyController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FacultyDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("F360PeerInteractionDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -191,61 +228,46 @@ public class FacultyController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Faculty getFaculty(java.lang.String id) {
+    public F360PeerInteraction getF360PeerInteraction(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    public List<Faculty> getFacultyList(String department) {
-        List<Faculty> list1;
-        List<Faculty> list2;
-        List<Faculty> list = new ArrayList<>();
-        if (department.equals("CS") || department.equals("IT")) {
-            list1 = getFacade().findByDepartment("CS");
-            list2 = getFacade().findByDepartment("IT");
-            list.addAll(list1);
-            list.addAll(list2);
-        } else if (department.equals("EX") || department.equals("ET")) {
-            list1 = getFacade().findByDepartment("EX");
-            list2 = getFacade().findByDepartment("ET");
-            list.addAll(list1);
-            list.addAll(list2);
-        } else if (department.equals("ME") || department.equals("AE")) {
-            list1 = getFacade().findByDepartment("ME");
-            list2 = getFacade().findByDepartment("AE");
-            list.addAll(list1);
-            list.addAll(list2);
-        } else {
-            list = getFacade().findByDepartment(department);
-        }
-
-        Collections.sort(list, new Comparator<Faculty>() {
-            public int compare(Faculty o1, Faculty o2) {
-                return o1.getFacultyFname().compareTo(o2.getFacultyFname());
-            }
-        });
-        return list;
+    public HashMap<String, Boolean> getValue() {
+        return value;
     }
 
-    @FacesConverter(forClass = Faculty.class)
-    public static class FacultyControllerConverter implements Converter {
+    public void setValue(HashMap<String, Boolean> value) {
+        this.value = value;
+    }
+
+//    public boolean isValue() {
+//        return value;
+//    }
+//
+//    public void setValue(boolean value) {
+//        this.value = value;
+//    }
+
+    @FacesConverter(forClass = F360PeerInteraction.class)
+    public static class F360PeerInteractionControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            FacultyController controller = (FacultyController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "facultyController");
-            return controller.getFaculty(getKey(value));
+            F360PeerInteractionController controller = (F360PeerInteractionController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "f360PeerInteractionController");
+            return controller.getF360PeerInteraction(getKey(value));
         }
 
-        java.lang.String getKey(String value) {
-            java.lang.String key;
-            key = value;
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.String value) {
+        String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -256,11 +278,11 @@ public class FacultyController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Faculty) {
-                Faculty o = (Faculty) object;
-                return getStringKey(o.getIdFaculty());
+            if (object instanceof F360PeerInteraction) {
+                F360PeerInteraction o = (F360PeerInteraction) object;
+                return getStringKey(o.getIdF360PeerInteraction());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Faculty.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + F360PeerInteraction.class.getName());
             }
         }
     }
