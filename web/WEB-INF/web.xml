@@ -28,6 +28,11 @@
             <description/>
             <url-pattern>/faces/*</url-pattern>
         </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>Common</web-resource-name>
+            <description/>
+            <url-pattern>/index.xhtml</url-pattern>
+        </web-resource-collection>
         <auth-constraint>
             <description/>
             <role-name>superuser</role-name>
@@ -44,6 +49,20 @@
             <description/>
             <url-pattern>/faces/f360/*</url-pattern>
         </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>Common</web-resource-name>
+            <description/>
+            <url-pattern>/faces/*</url-pattern>
+            <url-pattern>/index.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>staff</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>

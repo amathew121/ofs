@@ -80,8 +80,9 @@ public class Feedback2013StudentController implements Serializable {
 
     public void prepareListUser() {
         current = getLoggedUser();
+        if (current != null){
         current.setLoginTime(new Date());
-        update();
+        update(); }
         try {
             if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("staff"))
             {

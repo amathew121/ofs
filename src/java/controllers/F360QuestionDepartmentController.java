@@ -139,6 +139,10 @@ public class F360QuestionDepartmentController implements Serializable {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
+    
+    public String departmentQuestionnaire(){
+        return "Theory.xhtml?faces-redirect=true";
+    }
 
     private void updateCurrentItem() {
         int count = getFacade().count();
