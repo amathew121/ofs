@@ -89,21 +89,21 @@ public class Feedback2013StudentController implements Serializable {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/f360/SelectSubject.xhtml");
             }
             else if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole("superuser")) {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/AdminIndex.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/admin/AdminIndex.xhtml");
             }
             else if (getLoggedUser().getLogoutTime() == null) {
                 if (!getLoggedUser().getLoginStatus()) {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/SelectBatch.xhtml");
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/student/SelectBatch.xhtml");
 
                 } else {
                     FacultySubjectController fsc = (FacultySubjectController) FacesContext.getCurrentInstance().getApplication().getELResolver().getValue(FacesContext.getCurrentInstance().getELContext(), null, "facultySubjectController");
                     
                     fsc.prepareDetails(getLoggedUser().getBatch());
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/SelectSubject.xhtml");
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/student/SelectSubject.xhtml");
 
                 }
             } else {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/errorRelogin.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/common/errorRelogin.xhtml");
 
             }
         } catch (IOException ex) {

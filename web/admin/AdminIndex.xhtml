@@ -11,68 +11,65 @@
     <h:body>
         Hello from Facelets
         <br />
-        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
+        <h:link outcome="/welcomePrimefaces" value="Primefaces welcome page" />
         <br />
-        <h:link outcome="/course/List" value="Show All Course Items"/>
+        <h:link outcome="/admin/course/List" value="Show All Course Items"/>
         <br />
-        <h:link outcome="/faculty/List" value="Show All Faculty Items"/>
+        <h:link outcome="/admin/faculty/List" value="Show All Faculty Items"/>
         <br />
-        <h:link outcome="/facultySubject/List" value="Show All FacultySubject Items"/>
+        <h:link outcome="/admin/facultySubject/List" value="Show All FacultySubject Items"/>
         <br />
-        <h:link outcome="/feedback2013/List" value="Show All Feedback2013 Items"/>
+        <h:link outcome="/admin/feedback2013/List" value="Show All Feedback2013 Items"/>
         <br />
-        <h:link outcome="/feedback2013Comments/List" value="Show All Feedback2013Comments Items"/>
+        <h:link outcome="/admin/feedback2013Comments/List" value="Show All Feedback2013Comments Items"/>
         <br />
-        <h:link outcome="/feedback2013Question/List" value="Show All Feedback2013Question Items"/>
+        <h:link outcome="/admin/feedback2013Question/List" value="Show All Feedback2013Question Items"/>
         <br />
-        <h:link outcome="/feedback2013Student/List" value="Show All Feedback2013Student Items"/>
+        <h:link outcome="/admin/feedback2013Student/List" value="Show All Feedback2013Student Items"/>
         <br />
-        <h:link outcome="/program/List" value="Show All Program Items"/>
+        <h:link outcome="/admin/program/List" value="Show All Program Items"/>
         <br />
-        <h:link outcome="/subject/List" value="Show All Subject Items"/>
+        <h:link outcome="/admin/subject/List" value="Show All Subject Items"/>
         <br />
-        <h:link outcome="/SelectBatch" value="Select Batch"/>
-
+        <h:link outcome="/admin/course/List" value="Show All Course Items"/>
         <br />
-        <h:link outcome="/course/List" value="Show All Course Items"/>
+        <h:link outcome="/admin/feedback2013Student/List" value="Show All Feedback2013Student Items"/>
         <br />
-        <h:link outcome="/feedback2013Student/List" value="Show All Feedback2013Student Items"/>
+        <h:link outcome="/admin/program/List" value="Show All Program Items"/>
         <br />
-        <h:link outcome="/program/List" value="Show All Program Items"/>
+        <h:link outcome="/admin/programCourse/List" value="Show All ProgramCourse Items"/>
         <br />
-        <h:link outcome="/programCourse/List" value="Show All ProgramCourse Items"/>
+        <h:link outcome="/admin/feedback2013User/List" value="Show All Feedback2013User Items"/>
         <br />
-        <h:link outcome="/feedback2013Group/List" value="Show All Feedback2013Group Items"/>
+        <h:link outcome="/admin/fuserGroup/List" value="Show All FuserGroup Items"/>
         <br />
-        <h:link outcome="/feedback2013User/List" value="Show All Feedback2013User Items"/>
+        <h:link outcome="/admin/feedback2013Suggestions/List" value="Show All Feedback2013Suggestions Items"/>
+        <br />
+        <h:link outcome="/admin/f360CommentsDepartment/List" value="Show All F360CommentsDepartment Items"/>
+        <br />
+        <h:link outcome="/admin/f360CommentsPeer/List" value="Show All F360CommentsPeer Items"/>
+        <br />
+        <h:link outcome="/admin/f360FeedbackDepartment/List" value="Show All F360FeedbackDepartment Items"/>
+        <br />
+        <h:link outcome="/admin/f360FeedbackPeer/List" value="Show All F360FeedbackPeer Items"/>
+        <br />
+        <h:link outcome="/admin/f360QuestionDepartment/List" value="Show All F360QuestionDepartment Items"/>
+        <br />
+        <h:link outcome="/admin/f360QuestionPeer/List" value="Show All F360QuestionPeer Items"/>
+        <br />
+        <h:link outcome="/admin/f360QuetionTypes/List" value="Show All F360QuetionTypes Items"/>
+        <br />
+        <h:link outcome="/admin/f360User/List" value="Show All F360User Items"/>
+        <br />
+        <h:link outcome="/admin/faculty/List" value="Show All Faculty Items"/>
+        <br />
+        <h:link outcome="/admin/f360PeerInteraction/List" value="Show All F360PeerInteraction Items"/>
+   
         <h:form>
-            <h:commandButton action="#{feedback2013UserController.updatePassword()}" value="dsf" />
+           <h:commandButton action="#{feedback2013UserController.updatePassword()}" value="Update Passwords and Groups." />
+           <h:commandButton action="#{authBackingBean.logout()}" value="Logout"/>
 
         </h:form>
-        <br />
-        <h:link outcome="/fuserGroup/List" value="Show All FuserGroup Items"/>
-        <br />
-        <h:link outcome="/feedback2013Suggestions/List" value="Show All Feedback2013Suggestions Items"/>
-        <br />
-        <h:link outcome="/f360/admin/f360CommentsDepartment/List" value="Show All F360CommentsDepartment Items"/>
-        <br />
-        <h:link outcome="/f360/admin/f360CommentsPeer/List" value="Show All F360CommentsPeer Items"/>
-        <br />
-        <h:link outcome="/f360/admin/f360FeedbackDepartment/List" value="Show All F360FeedbackDepartment Items"/>
-        <br />
-        <h:link outcome="/f360/admin/f360FeedbackPeer/List" value="Show All F360FeedbackPeer Items"/>
-        <br />
-        <h:link outcome="/f360/admin/f360QuestionDepartment/List" value="Show All F360QuestionDepartment Items"/>
-        <br />
-        <h:link outcome="/f360/admin/f360QuestionPeer/List" value="Show All F360QuestionPeer Items"/>
-        <br />
-        <h:link outcome="/f360/admin/f360QuetionTypes/List" value="Show All F360QuetionTypes Items"/>
-        <br />
-        <h:link outcome="/f360/admin/f360User/List" value="Show All F360User Items"/>
-        <br />
-        <h:link outcome="/f360/admin/faculty/List" value="Show All Faculty Items"/>
-        <br />
-        <h:link outcome="/f360/admin/f360PeerInteraction/List" value="Show All F360PeerInteraction Items"/>
     </h:body>
 
 

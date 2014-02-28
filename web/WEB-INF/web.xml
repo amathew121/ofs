@@ -26,8 +26,7 @@
         <web-resource-collection>
             <web-resource-name>Common</web-resource-name>
             <description/>
-            <url-pattern>/faces/*</url-pattern>
-            <url-pattern>/index.xhtml</url-pattern>
+            <url-pattern>/faces/student/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -45,12 +44,6 @@
             <description/>
             <url-pattern>/faces/f360/*</url-pattern>
         </web-resource-collection>
-        <web-resource-collection>
-            <web-resource-name>Common</web-resource-name>
-            <description/>
-            <url-pattern>/faces/index.xhtml</url-pattern>
-            <url-pattern>/index.xhtml</url-pattern>
-        </web-resource-collection>
         <auth-constraint>
             <description/>
             <role-name>staff</role-name>
@@ -65,10 +58,38 @@
         <web-resource-collection>
             <web-resource-name>Common</web-resource-name>
             <description/>
-            <url-pattern>/faces/index.xhtml</url-pattern>
-            <url-pattern>/index.xhtml</url-pattern>
-            <url-pattern>/faces/AdminIndex.xhtml</url-pattern>
+            <url-pattern>/faces/admin/*</url-pattern>
         </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>superuser</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Common</display-name>
+        <web-resource-collection>
+            <web-resource-name>Common</web-resource-name>
+            <description/>
+            <url-pattern>/faces/common/*</url-pattern>
+            <url-pattern>/login.xhtml</url-pattern>
+            <url-pattern>/error.xhtml</url-pattern>
+            <url-pattern>/index.xhtml</url-pattern>
+            <url-pattern>/faces/index.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>superuser</role-name>
+            <role-name>staff</role-name>
+            <role-name>student</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <login-config>
         <auth-method>FORM</auth-method>
