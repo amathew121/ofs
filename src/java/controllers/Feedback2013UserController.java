@@ -118,15 +118,15 @@ public class Feedback2013UserController implements Serializable {
 
                     List<Feedback2013Student> l = studentController.findAll();
                     for (Feedback2013Student item : l) {
-                      /*  prepareCreate();
+                        prepareCreate();
                         current.setUid(item.getUid());
                         final String hash = DigestUtils.sha256Hex(item.getPwd());
                         current.setPwd(hash);
-                        create();*/
+                        create();
                         
                         groupController.prepareCreate();
                         groupController.getSelected().getFuserGroupPK().setUserName(item.getUid().toString());
-                        groupController.getSelected().getFuserGroupPK().setRoleName("superuser");
+                        groupController.getSelected().getFuserGroupPK().setRoleName("student");
                         groupController.create();
                         
 

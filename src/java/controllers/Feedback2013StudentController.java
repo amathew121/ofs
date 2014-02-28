@@ -88,7 +88,9 @@ public class Feedback2013StudentController implements Serializable {
             {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/f360/SelectSubject.xhtml");
             }
-            
+            else if (FacesContext.getCurrentInstance().getExternalContext().isUserInRole("superuser")) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/AdminIndex.xhtml");
+            }
             else if (getLoggedUser().getLogoutTime() == null) {
                 if (!getLoggedUser().getLoginStatus()) {
                     FacesContext.getCurrentInstance().getExternalContext().redirect("/feedback/faces/SelectBatch.xhtml");
