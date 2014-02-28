@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:composition template="/common/template.xhtml">
+    <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ViewSubjectTitle}"></h:outputText>
         </ui:define>
@@ -23,10 +23,6 @@
                     <h:outputText value="#{subjectController.selected.subjectSrNo}" title="#{bundle.ViewSubjectTitle_subjectSrNo}"/>
                     <h:outputText value="#{bundle.ViewSubjectLabel_subjectName}"/>
                     <h:outputText value="#{subjectController.selected.subjectName}" title="#{bundle.ViewSubjectTitle_subjectName}"/>
-                    <h:outputText value="#{bundle.ViewSubjectLabel_idProgram}"/>
-                    <h:outputText value="#{subjectController.selected.idProgram}" title="#{bundle.ViewSubjectTitle_idProgram}"/>
-                    <h:outputText value="#{bundle.ViewSubjectLabel_idCourse}"/>
-                    <h:outputText value="#{subjectController.selected.idCourse}" title="#{bundle.ViewSubjectTitle_idCourse}"/>
                     <h:outputText value="#{bundle.ViewSubjectLabel_semester}"/>
                     <h:outputText value="#{subjectController.selected.semester}" title="#{bundle.ViewSubjectTitle_semester}"/>
                     <h:outputText value="#{bundle.ViewSubjectLabel_theory}"/>
@@ -43,22 +39,8 @@
                     <h:outputText value="#{subjectController.selected.creditPractical}" title="#{bundle.ViewSubjectTitle_creditPractical}"/>
                     <h:outputText value="#{bundle.ViewSubjectLabel_creditTutorial}"/>
                     <h:outputText value="#{subjectController.selected.creditTutorial}" title="#{bundle.ViewSubjectTitle_creditTutorial}"/>
-                    <h:outputText value="#{bundle.ViewSubjectLabel_test1}"/>
-                    <h:outputText value="#{subjectController.selected.test1}" title="#{bundle.ViewSubjectTitle_test1}"/>
-                    <h:outputText value="#{bundle.ViewSubjectLabel_test2}"/>
-                    <h:outputText value="#{subjectController.selected.test2}" title="#{bundle.ViewSubjectTitle_test2}"/>
-                    <h:outputText value="#{bundle.ViewSubjectLabel_courseCode}"/>
-                    <h:outputText value="#{subjectController.selected.courseCode}" title="#{bundle.ViewSubjectTitle_courseCode}"/>
-                    <h:outputText value="#{bundle.ViewSubjectLabel_endSemExam}"/>
-                    <h:outputText value="#{subjectController.selected.endSemExam}" title="#{bundle.ViewSubjectTitle_endSemExam}"/>
-                    <h:outputText value="#{bundle.ViewSubjectLabel_termworkMarks}"/>
-                    <h:outputText value="#{subjectController.selected.termworkMarks}" title="#{bundle.ViewSubjectTitle_termworkMarks}"/>
-                    <h:outputText value="#{bundle.ViewSubjectLabel_practicalMarks}"/>
-                    <h:outputText value="#{subjectController.selected.practicalMarks}" title="#{bundle.ViewSubjectTitle_practicalMarks}"/>
-                    <h:outputText value="#{bundle.ViewSubjectLabel_oralMarks}"/>
-                    <h:outputText value="#{subjectController.selected.oralMarks}" title="#{bundle.ViewSubjectTitle_oralMarks}"/>
-                    <h:outputText value="#{bundle.ViewSubjectLabel_coreLab}"/>
-                    <h:outputText value="#{subjectController.selected.coreLab}" title="#{bundle.ViewSubjectTitle_coreLab}"/>
+                    <h:outputText value="#{bundle.ViewSubjectLabel_programCourse}"/>
+                    <h:outputText value="#{subjectController.selected.programCourse}" title="#{bundle.ViewSubjectTitle_programCourse}"/>
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{subjectController.destroyAndView}" value="#{bundle.ViewSubjectDestroyLink}"/>

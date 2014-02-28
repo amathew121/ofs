@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:composition template="/common/template.xhtml">
+    <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ListSubjectTitle}"></h:outputText>
         </ui:define>
@@ -43,18 +43,6 @@
                                 <h:outputText value="#{bundle.ListSubjectTitle_subjectName}"/>
                             </f:facet>
                             <h:outputText value="#{item.subjectName}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSubjectTitle_idProgram}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idProgram}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSubjectTitle_idCourse}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idCourse}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
@@ -106,51 +94,9 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSubjectTitle_test1}"/>
+                                <h:outputText value="#{bundle.ListSubjectTitle_programCourse}"/>
                             </f:facet>
-                            <h:outputText value="#{item.test1}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSubjectTitle_test2}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.test2}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSubjectTitle_courseCode}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.courseCode}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSubjectTitle_endSemExam}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.endSemExam}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSubjectTitle_termworkMarks}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.termworkMarks}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSubjectTitle_practicalMarks}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.practicalMarks}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSubjectTitle_oralMarks}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.oralMarks}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSubjectTitle_coreLab}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.coreLab}"/>
+                            <h:outputText value="#{item.programCourse}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">

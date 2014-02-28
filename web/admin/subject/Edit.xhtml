@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:composition template="/common/template.xhtml">
+    <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.EditSubjectTitle}"></h:outputText>
         </ui:define>
@@ -23,10 +23,6 @@
                     <h:inputText id="subjectSrNo" value="#{subjectController.selected.subjectSrNo}" title="#{bundle.EditSubjectTitle_subjectSrNo}" />
                     <h:outputLabel value="#{bundle.EditSubjectLabel_subjectName}" for="subjectName" />
                     <h:inputText id="subjectName" value="#{subjectController.selected.subjectName}" title="#{bundle.EditSubjectTitle_subjectName}" required="true" requiredMessage="#{bundle.EditSubjectRequiredMessage_subjectName}"/>
-                    <h:outputLabel value="#{bundle.EditSubjectLabel_idProgram}" for="idProgram" />
-                    <h:inputText id="idProgram" value="#{subjectController.selected.idProgram}" title="#{bundle.EditSubjectTitle_idProgram}" required="true" requiredMessage="#{bundle.EditSubjectRequiredMessage_idProgram}"/>
-                    <h:outputLabel value="#{bundle.EditSubjectLabel_idCourse}" for="idCourse" />
-                    <h:inputText id="idCourse" value="#{subjectController.selected.idCourse}" title="#{bundle.EditSubjectTitle_idCourse}" required="true" requiredMessage="#{bundle.EditSubjectRequiredMessage_idCourse}"/>
                     <h:outputLabel value="#{bundle.EditSubjectLabel_semester}" for="semester" />
                     <h:inputText id="semester" value="#{subjectController.selected.semester}" title="#{bundle.EditSubjectTitle_semester}" required="true" requiredMessage="#{bundle.EditSubjectRequiredMessage_semester}"/>
                     <h:outputLabel value="#{bundle.EditSubjectLabel_theory}" for="theory" />
@@ -43,22 +39,10 @@
                     <h:inputText id="creditPractical" value="#{subjectController.selected.creditPractical}" title="#{bundle.EditSubjectTitle_creditPractical}" required="true" requiredMessage="#{bundle.EditSubjectRequiredMessage_creditPractical}"/>
                     <h:outputLabel value="#{bundle.EditSubjectLabel_creditTutorial}" for="creditTutorial" />
                     <h:inputText id="creditTutorial" value="#{subjectController.selected.creditTutorial}" title="#{bundle.EditSubjectTitle_creditTutorial}" required="true" requiredMessage="#{bundle.EditSubjectRequiredMessage_creditTutorial}"/>
-                    <h:outputLabel value="#{bundle.EditSubjectLabel_test1}" for="test1" />
-                    <h:inputText id="test1" value="#{subjectController.selected.test1}" title="#{bundle.EditSubjectTitle_test1}" />
-                    <h:outputLabel value="#{bundle.EditSubjectLabel_test2}" for="test2" />
-                    <h:inputText id="test2" value="#{subjectController.selected.test2}" title="#{bundle.EditSubjectTitle_test2}" />
-                    <h:outputLabel value="#{bundle.EditSubjectLabel_courseCode}" for="courseCode" />
-                    <h:inputText id="courseCode" value="#{subjectController.selected.courseCode}" title="#{bundle.EditSubjectTitle_courseCode}" />
-                    <h:outputLabel value="#{bundle.EditSubjectLabel_endSemExam}" for="endSemExam" />
-                    <h:inputText id="endSemExam" value="#{subjectController.selected.endSemExam}" title="#{bundle.EditSubjectTitle_endSemExam}" />
-                    <h:outputLabel value="#{bundle.EditSubjectLabel_termworkMarks}" for="termworkMarks" />
-                    <h:inputText id="termworkMarks" value="#{subjectController.selected.termworkMarks}" title="#{bundle.EditSubjectTitle_termworkMarks}" />
-                    <h:outputLabel value="#{bundle.EditSubjectLabel_practicalMarks}" for="practicalMarks" />
-                    <h:inputText id="practicalMarks" value="#{subjectController.selected.practicalMarks}" title="#{bundle.EditSubjectTitle_practicalMarks}" />
-                    <h:outputLabel value="#{bundle.EditSubjectLabel_oralMarks}" for="oralMarks" />
-                    <h:inputText id="oralMarks" value="#{subjectController.selected.oralMarks}" title="#{bundle.EditSubjectTitle_oralMarks}" />
-                    <h:outputLabel value="#{bundle.EditSubjectLabel_coreLab}" for="coreLab" />
-                    <h:inputText id="coreLab" value="#{subjectController.selected.coreLab}" title="#{bundle.EditSubjectTitle_coreLab}" />
+                    <h:outputLabel value="#{bundle.EditSubjectLabel_programCourse}" for="programCourse" />
+                    <h:selectOneMenu id="programCourse" value="#{subjectController.selected.programCourse}" title="#{bundle.EditSubjectTitle_programCourse}" required="true" requiredMessage="#{bundle.EditSubjectRequiredMessage_programCourse}">
+                        <f:selectItems value="#{programCourseController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
                 </h:panelGrid>
                 <h:commandLink action="#{subjectController.update}" value="#{bundle.EditSubjectSaveLink}"/>
                 <br />

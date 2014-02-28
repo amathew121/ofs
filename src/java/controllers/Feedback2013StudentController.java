@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -22,6 +23,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpServletRequest;
 
 @Named("feedback2013StudentController")
 @SessionScoped
@@ -33,7 +35,8 @@ public class Feedback2013StudentController implements Serializable {
     private beans.Feedback2013StudentFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
-
+    private int userID;
+    
     public Feedback2013StudentController() {
     }
 
@@ -69,6 +72,68 @@ public class Feedback2013StudentController implements Serializable {
     public void setSelected(Feedback2013Student fs) {
         this.current = fs;
     }
+    
+    public List<Feedback2013Student> getLoggedInUsers(){
+        return getFacade().getLoggedInUser();
+    }
+    
+    public void viewPassword(){
+        Feedback2013Student student = getFeedback2013Student(userID);
+        if(student != null) {
+            JsfUtil.addSuccessMessage("Password: " + student.getPwd());
+        }
+         else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ID not found", "ID Not Found"));
+    }
+    }
+    public void viewIP() {
+        Feedback2013Student student = getFeedback2013Student(userID);
+        if (student != null) {
+            JsfUtil.addSuccessMessage("IP Address: " + student.getIpAddress());
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ID not found", "ID Not Found"));
+        }
+    }
+    public void logoutID(){
+        Feedback2013Student student = getFeedback2013Student(userID);
+        if (student != null) {
+            current = student;
+            current.setLogoutTime(new Date());
+            current.setLoginStatus(Boolean.TRUE);
+            update();
+            JsfUtil.addSuccessMessage("" + student.getUid() +" logged out ");
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ID not found", "ID Not Found"));
+        }
+    }
+    public void logoutID(int userID) {
+        this.userID = userID;
+        logoutID();
+    }
+    public void reset() {
+        
+        Feedback2013Student student = getFeedback2013Student(userID);
+
+        if(student != null) {
+        current = student;
+        current.setLoginStatus(Boolean.FALSE);
+        current.setBatch((short)0);
+        current.setLoginTime(null);
+        current.setLogoutTime(null);
+        current.setIpAddress(null);
+        update(); 
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Reset Successful", "Reset of " + student.getUid()+ " Successful"));
+
+        }
+        else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ID not found", "ID Not Found"));
+        }
+
+    }
+    public void reset(int userID) {
+        this.userID = userID;
+        reset();
+    }
 
     public Feedback2013Student getLoggedUser() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -79,9 +144,16 @@ public class Feedback2013StudentController implements Serializable {
     }
 
     public void prepareListUser() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
+        System.out.println("ipAddress:" + ipAddress);
         current = getLoggedUser();
         if (current != null){
         current.setLoginTime(new Date());
+        current.setIpAddress(ipAddress);
         update(); }
         try {
             if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("staff"))
@@ -243,6 +315,14 @@ public class Feedback2013StudentController implements Serializable {
 
     public Feedback2013Student getFeedback2013Student(java.lang.Integer id) {
         return ejbFacade.find(id);
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     @FacesConverter(forClass = Feedback2013Student.class)

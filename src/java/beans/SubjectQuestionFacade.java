@@ -4,19 +4,17 @@
  */
 package beans;
 
-import entities.Feedback2013Student;
-import java.util.List;
+import entities.SubjectQuestion;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
  * @author piit
  */
 @Stateless
-public class Feedback2013StudentFacade extends AbstractFacade<Feedback2013Student> {
+public class SubjectQuestionFacade extends AbstractFacade<SubjectQuestion> {
     @PersistenceContext(unitName = "FeedbackJPAPU")
     private EntityManager em;
 
@@ -25,12 +23,8 @@ public class Feedback2013StudentFacade extends AbstractFacade<Feedback2013Studen
         return em;
     }
 
-    public Feedback2013StudentFacade() {
-        super(Feedback2013Student.class);
+    public SubjectQuestionFacade() {
+        super(SubjectQuestion.class);
     }
     
-    public List<Feedback2013Student> getLoggedInUser(){
-        Query q = em.createNamedQuery("Feedback2013Student.findLoggedIn");
-        return q.getResultList();
-    }
 }

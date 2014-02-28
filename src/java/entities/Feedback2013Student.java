@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Feedback2013Student.findByDivision", query = "SELECT f FROM Feedback2013Student f WHERE f.division = :division"),
     @NamedQuery(name = "Feedback2013Student.findByBatch", query = "SELECT f FROM Feedback2013Student f WHERE f.batch = :batch"),
     @NamedQuery(name = "Feedback2013Student.findByLoginStatus", query = "SELECT f FROM Feedback2013Student f WHERE f.loginStatus = :loginStatus"),
+    @NamedQuery(name = "Feedback2013Student.findLoggedIn", query = "SELECT f FROM Feedback2013Student f WHERE f.loginStatus = true AND f.logoutTime = null"),
     @NamedQuery(name = "Feedback2013Student.findByLoginTime", query = "SELECT f FROM Feedback2013Student f WHERE f.loginTime = :loginTime"),
     @NamedQuery(name = "Feedback2013Student.findByLogoutTime", query = "SELECT f FROM Feedback2013Student f WHERE f.logoutTime = :logoutTime"),
     @NamedQuery(name = "Feedback2013Student.findByIpAddress", query = "SELECT f FROM Feedback2013Student f WHERE f.ipAddress = :ipAddress")})
