@@ -133,12 +133,24 @@ public class Feedback2013QuestionController implements Serializable {
         getTheory();
         return "Theory?faces-redirect=true";
     }
+    public String theoryQuestionnaire1() {
+        index=indexTheory;
+        getProgram();
+        getTheory();
+        return "Theory_1?faces-redirect=true";
+    }
 
     public String practicalQuestionnaire() {
         index=indexPractical;
         getProgram();
         getPractical();
         return "Practical?faces-redirect=true";
+    }
+    public String practicalQuestionnaire1() {
+        index=indexPractical;
+        getProgram();
+        getPractical();
+        return "Practical_1?faces-redirect=true";
     }
 
     public void getTheory() {
@@ -372,6 +384,14 @@ public class Feedback2013QuestionController implements Serializable {
 
     public Feedback2013Question getFeedback2013Question(java.lang.Integer id) {
         return ejbFacade.find(id);
+    }
+
+    public List<Feedback2013Question> getQuestionList() {
+        return questionList;
+    }
+
+    public void setQuestionList(List<Feedback2013Question> questionList) {
+        this.questionList = questionList;
     }
 
     @FacesConverter(forClass = Feedback2013Question.class)

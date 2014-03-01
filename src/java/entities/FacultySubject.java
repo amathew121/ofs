@@ -5,7 +5,9 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -67,6 +69,8 @@ public class FacultySubject implements Serializable {
     @OneToMany(mappedBy = "idFacultySubject")
     private List<Feedback2013Comments> feedback2013CommentsList;
 
+    @Transient
+    private Map<Integer, Integer> ratings = new HashMap<>();
     @Transient
     private boolean submitted;
     @Transient
@@ -222,6 +226,14 @@ public class FacultySubject implements Serializable {
     @Override
     public String toString() {
         return "entities.FacultySubject[ idFacultySubject=" + idFacultySubject + " ]";
+    }
+
+    public Map<Integer, Integer> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Map<Integer, Integer> ratings) {
+        this.ratings = ratings;
     }
     
 }

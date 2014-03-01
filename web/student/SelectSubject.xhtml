@@ -17,16 +17,16 @@
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
                 <h:panelGroup  style="text-align: center; font-size: 100%; vertical-align: text-top">
-                    <p:commandButton rendered="#{!subjectQuestionController.submitCourse}" action="#{subjectQuestionController.navCourseSurvey}" immediate="true" value="Practical" ></p:commandButton>
+                    <p:commandButton rendered="#{!subjectQuestionController.submitCourse}" action="#{subjectQuestionController.navCourseSurvey}" immediate="true" value="Course Exit" ></p:commandButton>
                     <br/>
-                    <p:commandButton rendered="#{!feedback2013QuestionController.submitTheory}" action="#{feedback2013QuestionController.theoryQuestionnaire()}" immediate ="true" value="Theory" ></p:commandButton>
-                    <p:commandButton rendered="#{!feedback2013QuestionController.submitPractical}" action="#{feedback2013QuestionController.practicalQuestionnaire()}" immediate="true" value="Practical" ></p:commandButton>
-                    <p:outputLabel rendered="#{feedback2013QuestionController.submitPractical and feedback2013QuestionController.submitTheory}" value="Thank you for your valuable feedback. Please leave us suggestions on how to improve this experience. The suggestions link can be found at the top right corner of this page." />
+                    <p:commandButton rendered="#{!feedback2013QuestionController.submitTheory}" action="#{feedback2013QuestionController.theoryQuestionnaire1()}" immediate ="true" value="Theory" ></p:commandButton>
+                    <p:commandButton rendered="#{!feedback2013QuestionController.submitPractical}" action="#{feedback2013QuestionController.practicalQuestionnaire1()}" immediate="true" value="Practical" ></p:commandButton>
+                    <p:outputLabel style="font-size: larger" rendered="#{feedback2013QuestionController.submitPractical and feedback2013QuestionController.submitTheory and subjectQuestionController.submitCourse}" value="Thank you for your valuable feedback. Please leave us suggestions on how to improve this experience." />
                     <br />
                     <br />
                     
-                    <p:commandButton rendered="#{feedback2013QuestionController.submitPractical and feedback2013QuestionController.submitTheory}" value="Suggestions" action="#{feedback2013SuggestionsController.prepareSuggestion()}" ajax="false" />
-                    <p:commandButton rendered="#{feedback2013QuestionController.submitPractical and feedback2013QuestionController.submitTheory}" action="#{authBackingBean.logout()}" value="Logout" ajax="false" />
+                    <p:commandButton rendered="#{feedback2013QuestionController.submitPractical and feedback2013QuestionController.submitTheory and subjectQuestionController.submitCourse}" value="Suggestions" action="#{feedback2013SuggestionsController.prepareSuggestion()}" ajax="false" />
+                    <p:commandButton rendered="#{feedback2013QuestionController.submitPractical and feedback2013QuestionController.submitTheory and subjectQuestionController.submitCourse}" action="#{authBackingBean.logout()}" value="Logout" ajax="false" />
 
                 </h:panelGroup>
 

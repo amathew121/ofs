@@ -4,12 +4,17 @@ import entities.Feedback2013;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
 import beans.Feedback2013Facade;
+import entities.FacultySubject;
+import entities.Feedback2013Question;
+import entities.Feedback2013Student;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -17,6 +22,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import org.primefaces.event.RateEvent;
 
 @Named("feedback2013Controller")
 @SessionScoped
@@ -81,7 +87,7 @@ public class Feedback2013Controller implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("Feedback2013Created"));
+            JsfUtil.addSuccessMessage("Feedback Recorded");
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -98,7 +104,7 @@ public class Feedback2013Controller implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("Feedback2013Updated"));
+            JsfUtil.addSuccessMessage("Feedback Updated");
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -151,7 +157,43 @@ public class Feedback2013Controller implements Serializable {
             current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
+public void onrate(RateEvent rateEvent) {
+    System.out.println(rateEvent.getRating());
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Rate Event", "You rated:" + Integer.parseInt((String) rateEvent.getRating()));
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.addMessage(null, message);
+        Feedback2013StudentController controller = (Feedback2013StudentController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "feedback2013StudentController");
 
+        Feedback2013Student student = controller.getLoggedUser();
+
+        FacultySubject temp = facesContext.getApplication().evaluateExpressionGet(facesContext, "#{item}", FacultySubject.class);
+        Feedback2013Question temp2 = facesContext.getApplication().evaluateExpressionGet(facesContext, "#{c}", Feedback2013Question.class);
+
+        prepareCreate();
+        current.setIdAnswer((short) Integer.parseInt((String) rateEvent.getRating()));
+        current.setIdFacultySubject(temp);
+        current.setUid(student);
+        current.setQid(temp2);
+        current.setId(0l);
+        
+        List<Feedback2013> list2 = getItemsByUserId(student, temp, temp2);
+        if(list2.isEmpty()) {
+            create();
+        }
+        else {
+            current = list2.get(0);
+            current.setIdAnswer((short) Integer.parseInt((String) rateEvent.getRating()));
+            update();
+        }
+
+        
+    }
+    public void oncancel() {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancel Event", "Rate Reset");
+
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
     public DataModel getItems() {
         if (items == null) {
             items = getPagination().createPageDataModel();
@@ -189,6 +231,10 @@ public class Feedback2013Controller implements Serializable {
 
     public Feedback2013 getFeedback2013(java.lang.Long id) {
         return ejbFacade.find(id);
+    }
+
+    private List<Feedback2013> getItemsByUserId(Feedback2013Student student, FacultySubject fs, Feedback2013Question fq) {
+        return getFacade().findByUserId(student, fs, fq);
     }
 
     @FacesConverter(forClass = Feedback2013.class)

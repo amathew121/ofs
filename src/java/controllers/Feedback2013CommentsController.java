@@ -92,6 +92,34 @@ public class Feedback2013CommentsController implements Serializable {
             return null;
         }
     }
+    public String createComment() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        String uid = facesContext.getExternalContext().getRemoteUser();
+        //String uid = "100";
+        Feedback2013StudentController studentController = (Feedback2013StudentController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "feedback2013StudentController");
+        FacultySubjectController facultySubjectController = (FacultySubjectController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "facultySubjectController");
+
+        Feedback2013Student fs = studentController.getFeedback2013Student(Integer.parseInt(uid));
+        List<FacultySubject> l = facultySubjectController.getTheory();
+        List<FacultySubject> k = facultySubjectController.getPractical();
+
+        for (FacultySubject item : l) {
+            prepareCreate();
+            current.setUid(fs);
+            current.setComments(item.getTheoryComment());
+            current.setIdFacultySubject(item);
+            create();
+        }
+        for (FacultySubject item : k) {
+            prepareCreate();
+            current.setUid(fs);
+            current.setComments(item.getPracticalComment());
+            current.setIdFacultySubject(item);
+            create();
+        }
+
+            return "SelectSubject?faces-redirect=true";
+    }
 
     public String createComment(int type) {
         FacesContext facesContext = FacesContext.getCurrentInstance();

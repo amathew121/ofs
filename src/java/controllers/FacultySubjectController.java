@@ -79,6 +79,7 @@ public class FacultySubjectController implements Serializable {
     }
 
     public List<FacultySubject> getTheory() {
+        
         return l;
     }
 
@@ -120,7 +121,7 @@ public class FacultySubjectController implements Serializable {
             }
         }
 
-        return "CommentTheory?faces-redirect=true";
+        return "Comment?faces-redirect=true";
     }
 
     public String prepareCreate() {
