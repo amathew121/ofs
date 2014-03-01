@@ -1,11 +1,9 @@
 package controllers;
 
-import entities.SubjectQuestion;
+import entities.SubjectOutcome;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
-import beans.SubjectQuestionFacade;
-import entities.Feedback2013ExitSurvey;
-import entities.Feedback2013Student;
+import beans.SubjectOutcomeFacade;
 import entities.Subject;
 
 import java.io.Serializable;
@@ -14,7 +12,6 @@ import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -22,35 +19,31 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import org.primefaces.event.RateEvent;
 
-@Named("subjectQuestionController")
+@Named("subjectOutcomeController")
 @SessionScoped
-public class SubjectQuestionController implements Serializable {
+public class SubjectOutcomeController implements Serializable {
 
-    private SubjectQuestion current;
+    private SubjectOutcome current;
     private DataModel items = null;
     @EJB
-    private beans.SubjectQuestionFacade ejbFacade;
+    private beans.SubjectOutcomeFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
-    private List<Subject> subjectList;
-    private int index;
-    private boolean submitCourse;
     private Subject sub;
 
-    public SubjectQuestionController() {
+    public SubjectOutcomeController() {
     }
 
-    public SubjectQuestion getSelected() {
+    public SubjectOutcome getSelected() {
         if (current == null) {
-            current = new SubjectQuestion();
+            current = new SubjectOutcome();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private SubjectQuestionFacade getFacade() {
+    private SubjectOutcomeFacade getFacade() {
         return ejbFacade;
     }
 
@@ -77,13 +70,13 @@ public class SubjectQuestionController implements Serializable {
     }
 
     public String prepareView() {
-        current = (SubjectQuestion) getItems().getRowData();
+        current = (SubjectOutcome) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new SubjectQuestion();
+        current = new SubjectOutcome();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -91,7 +84,7 @@ public class SubjectQuestionController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SubjectQuestionCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SubjectOutcomeCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -100,7 +93,7 @@ public class SubjectQuestionController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (SubjectQuestion) getItems().getRowData();
+        current = (SubjectOutcome) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -108,7 +101,7 @@ public class SubjectQuestionController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SubjectQuestionUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SubjectOutcomeUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -117,7 +110,7 @@ public class SubjectQuestionController implements Serializable {
     }
 
     public String destroy() {
-        current = (SubjectQuestion) getItems().getRowData();
+        current = (SubjectOutcome) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -141,7 +134,7 @@ public class SubjectQuestionController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SubjectQuestionDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SubjectOutcomeDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -168,51 +161,7 @@ public class SubjectQuestionController implements Serializable {
         }
         return items;
     }
-    
-    public String navCourseSurvey() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Feedback2013StudentController controller = (Feedback2013StudentController) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "feedback2013StudentController");
-        SubjectController subjectController = (SubjectController) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "subjectController");
 
-        Feedback2013Student student = controller.getLoggedUser();
-        subjectList = subjectController.getSubjectBySemester(student);
-        sub = subjectList.get(index);
-        return "CourseExit?faces-redirect=true";
-    }
-
-    public List<SubjectQuestion> getSubjectQuestions(){
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Feedback2013StudentController controller = (Feedback2013StudentController) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "feedback2013StudentController");
-        Feedback2013ExitSurveyController feedback2013ExitSurveyController = (Feedback2013ExitSurveyController) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "feedback2013ExitSurveyController");
-
-        Feedback2013Student student = controller.getLoggedUser();
-        List<SubjectQuestion> list = getFacade().getSubjectQuestions(sub);
-        
-        List<Feedback2013ExitSurvey> list2 = feedback2013ExitSurveyController.getItemsByUserId(student, sub);
-        for(Feedback2013ExitSurvey item : list2) {
-            list.get(item.getIdSubjectQuestions().getQno()-1).setRating(item.getAns());
-        }
-        return list; 
-         
-         
-    }
-    public String nextQuestion() {
-        System.out.println(++index);
-        if (index < subjectList.size()) {
-            sub = subjectList.get(index);
-            return "CourseExit?faces-redirect=true";
-
-        }
-        else {
-            submitCourse = true;
-            return "SelectSubject?faces-redirect=true";
-        }
-    }
-    
     private void recreateModel() {
         items = null;
     }
@@ -241,16 +190,11 @@ public class SubjectQuestionController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public SubjectQuestion getSubjectQuestion(java.lang.Integer id) {
+    public SubjectOutcome getSubjectOutcome(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
-
-    public boolean isSubmitCourse() {
-        return submitCourse;
-    }
-
-    public void setSubmitCourse(boolean submitCourse) {
-        this.submitCourse = submitCourse;
+    public List<SubjectOutcome> getItemsUser(Subject sub) {
+        return getFacade().getByIdSubject(sub);
     }
 
     public Subject getSub() {
@@ -260,18 +204,18 @@ public class SubjectQuestionController implements Serializable {
     public void setSub(Subject sub) {
         this.sub = sub;
     }
-
-    @FacesConverter(forClass = SubjectQuestion.class)
-    public static class SubjectQuestionControllerConverter implements Converter {
+    
+    @FacesConverter(forClass = SubjectOutcome.class)
+    public static class SubjectOutcomeControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            SubjectQuestionController controller = (SubjectQuestionController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "subjectQuestionController");
-            return controller.getSubjectQuestion(getKey(value));
+            SubjectOutcomeController controller = (SubjectOutcomeController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "subjectOutcomeController");
+            return controller.getSubjectOutcome(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -291,11 +235,11 @@ public class SubjectQuestionController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof SubjectQuestion) {
-                SubjectQuestion o = (SubjectQuestion) object;
-                return getStringKey(o.getIdSubjectQuestions());
+            if (object instanceof SubjectOutcome) {
+                SubjectOutcome o = (SubjectOutcome) object;
+                return getStringKey(o.getIdSubjectOutcome());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + SubjectQuestion.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + SubjectOutcome.class.getName());
             }
         }
     }

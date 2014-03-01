@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/common/template.xhtml">
+        <ui:define name="title">
+
+            <h:outputText value="Feedback #{subjectQuestionController.sub.subjectName}"></h:outputText>
+        </ui:define>
+        <ui:define name="body"> 
+            <h:form id="form">
+                                <p:growl id="messages" showDetail="true"/>  
+
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <div style="width: 50%; float: left;">
+                <p:dataTable value="#{subjectObjectiveController.getItemsUser(subjectQuestionController.sub)}" var="c">
+                    <p:column headerText="Subject Objective">
+                        #{c.objective}
+                    </p:column>
+                </p:dataTable>
+                </div>
+                <div style="width: 50%; float: right;">
+
+                <p:dataTable value="#{subjectOutcomeController.getItemsUser(subjectQuestionController.sub)}" var="c">
+                    <p:column headerText="Subject Outcome">
+                        #{c.outcome}
+                    </p:column>
+                </p:dataTable>
+                </div>
+                <p:dataTable value="#{subjectQuestionController.subjectQuestions}" var="item">
+                    <p:column headerText="Question" >
+                        #{item.qtext}
+                    </p:column>
+                    <p:column style="" id="rating">
+                        <f:facet name="header">
+                            <h:outputText value="Rating"/>
+                        </f:facet>
+                        <p:rating  value="#{item.rating}" >
+                            <p:ajax event="rate" listener="#{feedback2013ExitSurveyController.onrate}" update=":form:messages" />  
+                            <p:ajax event="cancel" listener="#{feedback2013ExitSurveyController.oncancel}" update=":form:messages" />  
+                        </p:rating>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <h:form>
+                 <p:commandButton action="#{subjectQuestionController.nextQuestion()}" value="Next" />
+
+            </h:form>
+
+            <br />
+            <br />
+        </ui:define>
+    </ui:composition>
+
+</html>

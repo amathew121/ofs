@@ -5,7 +5,7 @@
 package beans;
 
 import entities.Subject;
-import entities.SubjectQuestion;
+import entities.SubjectOutcome;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,7 +17,7 @@ import javax.persistence.Query;
  * @author piit
  */
 @Stateless
-public class SubjectQuestionFacade extends AbstractFacade<SubjectQuestion> {
+public class SubjectOutcomeFacade extends AbstractFacade<SubjectOutcome> {
     @PersistenceContext(unitName = "FeedbackJPAPU")
     private EntityManager em;
 
@@ -26,13 +26,14 @@ public class SubjectQuestionFacade extends AbstractFacade<SubjectQuestion> {
         return em;
     }
 
-    public SubjectQuestionFacade() {
-        super(SubjectQuestion.class);
+    public SubjectOutcomeFacade() {
+        super(SubjectOutcome.class);
+    }
+    public List<SubjectOutcome> getByIdSubject(Subject subject) {
+        Query q = em.createNamedQuery("SubjectOutcome.findByIdSubject");
+        q.setParameter("idSubject", subject);
+        return q.getResultList();
+
     }
     
-    public List<SubjectQuestion> getSubjectQuestions(Subject idSubject){
-        Query q = em.createNamedQuery("SubjectQuestion.findByIdSubject");
-        q.setParameter("idSubject", idSubject);
-        return q.getResultList();
-    }
 }

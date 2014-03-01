@@ -17,6 +17,8 @@
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
                 <h:panelGroup  style="text-align: center; font-size: 100%; vertical-align: text-top">
+                    <p:commandButton rendered="#{!subjectQuestionController.submitCourse}" action="#{subjectQuestionController.navCourseSurvey}" immediate="true" value="Practical" ></p:commandButton>
+                    <br/>
                     <p:commandButton rendered="#{!feedback2013QuestionController.submitTheory}" action="#{feedback2013QuestionController.theoryQuestionnaire()}" immediate ="true" value="Theory" ></p:commandButton>
                     <p:commandButton rendered="#{!feedback2013QuestionController.submitPractical}" action="#{feedback2013QuestionController.practicalQuestionnaire()}" immediate="true" value="Practical" ></p:commandButton>
                     <p:outputLabel rendered="#{feedback2013QuestionController.submitPractical and feedback2013QuestionController.submitTheory}" value="Thank you for your valuable feedback. Please leave us suggestions on how to improve this experience. The suggestions link can be found at the top right corner of this page." />

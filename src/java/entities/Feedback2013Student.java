@@ -6,6 +6,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,6 +26,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -45,6 +48,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Feedback2013Student.findByLogoutTime", query = "SELECT f FROM Feedback2013Student f WHERE f.logoutTime = :logoutTime"),
     @NamedQuery(name = "Feedback2013Student.findByIpAddress", query = "SELECT f FROM Feedback2013Student f WHERE f.ipAddress = :ipAddress")})
 public class Feedback2013Student implements Serializable {
+    @OneToMany(mappedBy = "uid")
+    private List<Feedback2013ExitSurvey> feedback2013ExitSurveyList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -223,6 +228,15 @@ public class Feedback2013Student implements Serializable {
     @Override
     public String toString() {
         return "entities.Feedback2013Student[ uid=" + uid + " ]";
+    }
+
+    @XmlTransient
+    public List<Feedback2013ExitSurvey> getFeedback2013ExitSurveyList() {
+        return feedback2013ExitSurveyList;
+    }
+
+    public void setFeedback2013ExitSurveyList(List<Feedback2013ExitSurvey> feedback2013ExitSurveyList) {
+        this.feedback2013ExitSurveyList = feedback2013ExitSurveyList;
     }
     
 }
