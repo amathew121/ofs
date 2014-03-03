@@ -177,7 +177,9 @@ public class SubjectQuestionController implements Serializable {
                 getValue(facesContext.getELContext(), null, "subjectController");
 
         Feedback2013Student student = controller.getLoggedUser();
-        subjectList = subjectController.getSubjectBySemester(student);
+        short semester = student.getSemester();
+        semester--;
+        subjectList = subjectController.getSubjectBySemester(student.getProgramCourse(),semester);
         sub = subjectList.get(index);
         return "CourseExit?faces-redirect=true";
     }

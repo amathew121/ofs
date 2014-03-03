@@ -41,7 +41,7 @@
                         <f:facet name="header">
                             <h:outputText value="Rating"/>
                         </f:facet>
-                        <p:rating  value="#{item.rating}" >
+                        <p:rating  value="#{item.rating}" stars="10" cancel="false" >
                             <p:ajax event="rate" listener="#{feedback2013ExitSurveyController.onrate}" update=":form:messages" />  
                             <p:ajax event="cancel" listener="#{feedback2013ExitSurveyController.oncancel}" update=":form:messages" />  
                         </p:rating>

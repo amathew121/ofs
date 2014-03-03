@@ -11,17 +11,18 @@
 
         </ui:define>
         <ui:define name="body">
-            <br />
-            <h:outputText value="* - Strongly Disagree" />
-            <br />
-            <h:outputText value="** - Disagree" />
-            <br />
-            <h:outputText value="*** - Neutral" />
-            <br />
-            <h:outputText value="**** - Agree" />
-            <br />
-            <h:outputText value="***** - Strongly Agree" />
-            <br />
+            <p:panelGrid columns="5" style="text-align: center; display: inline-block" >
+                <h:outputText style="font-size: xx-large" value="*" />
+            <h:outputText style="font-size: xx-large" value="**" />
+            <h:outputText style="font-size: xx-large" value="***" />
+            <h:outputText style="font-size: xx-large" value="****" />
+            <h:outputText style="font-size: xx-large" value="*****" />
+            <h:outputText value="Strongly Disagree" />
+            <h:outputText value="Disagree" />
+            <h:outputText value="Neutral" />
+            <h:outputText value="Agree" />
+            <h:outputText value="Strongly Agree" />
+            </p:panelGrid>
             <h:form id="form">
                 <p:growl id="messages" showDetail="true"/>  
 
@@ -44,7 +45,7 @@
                         <f:facet name="header">
                             <h:outputText value="Rating"/>
                         </f:facet>
-                        <p:rating  value="#{item.ratings[c.qid]}" >
+                        <p:rating  value="#{item.ratings[c.qid]}"  cancel="false" >
                             <p:ajax event="rate" listener="#{feedback2013Controller.onrate}" update=":form:messages" />  
                             <p:ajax event="cancel" listener="#{feedback2013Controller.oncancel}" update=":form:messages" />  
                         </p:rating>

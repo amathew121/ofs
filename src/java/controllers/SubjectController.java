@@ -5,6 +5,7 @@ import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
 import beans.SubjectFacade;
 import entities.Feedback2013Student;
+import entities.ProgramCourse;
 
 import java.io.Serializable;
 import java.util.List;
@@ -111,6 +112,10 @@ public class SubjectController implements Serializable {
     public List<Subject> getSubjectBySemester(Feedback2013Student fs) {
         
         return getFacade().findSubjectBySemester(fs.getProgramCourse(), fs.getSemester());
+    }
+    public List<Subject> getSubjectBySemester(ProgramCourse pc, short semester) {
+
+        return getFacade().findSubjectBySemester(pc, semester);
     }
 
     public String destroy() {
