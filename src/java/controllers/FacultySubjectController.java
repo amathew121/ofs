@@ -4,6 +4,8 @@ import entities.FacultySubject;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
 import beans.FacultySubjectFacade;
+import entities.Feedback2013;
+import entities.Feedback2013Question;
 import entities.Feedback2013Student;
 import entities.Subject;
 
@@ -79,7 +81,6 @@ public class FacultySubjectController implements Serializable {
     }
 
     public List<FacultySubject> getTheory() {
-        
         return l;
     }
 

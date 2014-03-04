@@ -4,6 +4,7 @@ import entities.Feedback2013;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
 import beans.Feedback2013Facade;
+import entities.FQuestions;
 import entities.FacultySubject;
 import entities.Feedback2013Question;
 import entities.Feedback2013Student;
@@ -167,17 +168,17 @@ public void onrate(RateEvent rateEvent) {
 
         Feedback2013Student student = controller.getLoggedUser();
 
-        FacultySubject temp = facesContext.getApplication().evaluateExpressionGet(facesContext, "#{item}", FacultySubject.class);
-        Feedback2013Question temp2 = facesContext.getApplication().evaluateExpressionGet(facesContext, "#{c}", Feedback2013Question.class);
+        FQuestions temp = facesContext.getApplication().evaluateExpressionGet(facesContext, "#{c}", FQuestions.class);
+        FacultySubject temp2 = facesContext.getApplication().evaluateExpressionGet(facesContext, "#{item}", FacultySubject.class);
 
         prepareCreate();
         current.setIdAnswer((short) Integer.parseInt((String) rateEvent.getRating()));
-        current.setIdFacultySubject(temp);
+        current.setIdFacultySubject(temp2);
         current.setUid(student);
-        current.setQid(temp2);
+        current.setQid(temp.getQ());
         current.setId(0l);
         
-        List<Feedback2013> list2 = getItemsByUserId(student, temp, temp2);
+        List<Feedback2013> list2 = getItemsByUserId(student, temp2, temp.getQ());
         if(list2.isEmpty()) {
             create();
         }

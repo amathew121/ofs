@@ -29,11 +29,11 @@
 
 
 
-                <p:dataGrid columns="3" value="#{feedback2013QuestionController.questionList}" var="c">
+                <p:dataGrid columns="3" value="#{feedback2013QuestionController.getqList()}" var="c">
                     <p:panel >
-                        <h:outputText style="font-size: larger" value="#{c.qno}#{'.  '}#{c.qtext}"></h:outputText>
+                        <h:outputText style="font-size: larger" value="#{c.q.qno}#{'.  '}#{c.q.qtext}"></h:outputText>
 
-                        <p:dataTable value="#{facultySubjectController.practical}" var="item" >                      
+                        <p:dataTable value="#{c.fsList}" var="item" rowIndexVar="i" >                      
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Faculty Name"/>
@@ -46,7 +46,7 @@
                         <f:facet name="header">
                             <h:outputText value="Rating"/>
                         </f:facet>
-                        <p:rating  value="#{item.ratings[c.qid]}"  cancel="false" >
+                        <p:rating  value="#{c.ratings[i]}"  >
                             <p:ajax event="rate" listener="#{feedback2013Controller.onrate}" update=":form:messages" />  
                             <p:ajax event="cancel" listener="#{feedback2013Controller.oncancel}" update=":form:messages" />  
                         </p:rating>

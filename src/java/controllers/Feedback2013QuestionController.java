@@ -10,9 +10,7 @@ import entities.Program;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -24,6 +22,9 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import entities.FQuestions;
+import java.util.HashMap;
+import java.util.Map;
 
 @Named("feedback2013QuestionController")
 @SessionScoped
@@ -47,7 +48,10 @@ public class Feedback2013QuestionController implements Serializable {
     private boolean submitPractical;
     private int indexTheory;
     private int indexPractical;
-
+    private List<FacultySubject> theory;
+    private List<FacultySubject> practical;
+    private List<FQuestions> qList;
+            
     public Feedback2013QuestionController() {
     }
 
@@ -120,8 +124,10 @@ public class Feedback2013QuestionController implements Serializable {
         //String uid = "100";
         Feedback2013StudentController studentController = (Feedback2013StudentController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "feedback2013StudentController");
         Feedback2013Student fs = studentController.getFeedback2013Student(Integer.parseInt(uid));
+        FacultySubjectController facultySubjectController = (FacultySubjectController) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "facultySubjectController");
 
-
+        theory = facultySubjectController.getTheory();
+        practical = facultySubjectController.getPractical();
         // idFacultySubject = item;
         idProgram = fs.getProgramCourse().getProgram();
         return idProgram;
@@ -156,6 +162,19 @@ public class Feedback2013QuestionController implements Serializable {
     public void getTheory() {
 
         questionList = getFacade().getTheory(idProgram);
+        Map<Integer, Short> theoryRatingList = new HashMap<>();
+        int i =0;
+        for (FacultySubject x : theory) {
+            theoryRatingList.put(i++, (short)0);
+        }
+        qList = new ArrayList<>();
+        for(Feedback2013Question item : questionList) {
+            FQuestions e = new FQuestions();
+            e.setQ(item);
+            e.setFsList(theory);
+            e.setRatings(theoryRatingList);
+            qList.add(e);
+        }
         qNo = questionList.get(index).getQno();
         qText = questionList.get(index).getQtext();
         qNo2 = questionList.get(index + 1).getQno();
@@ -164,6 +183,19 @@ public class Feedback2013QuestionController implements Serializable {
 
     public void getPractical() {
         questionList = getFacade().getPractical(idProgram);
+        Map<Integer, Short> practicalRatingList = new HashMap<>();
+        int i =0;
+        for (FacultySubject x : practical ) {
+            practicalRatingList.put(i++, (short)0);
+        }
+        qList = new ArrayList<>();
+        for (Feedback2013Question item : questionList) {
+            FQuestions e = new FQuestions();
+            e.setQ(item);
+            e.setFsList(practical);
+            e.setRatings(practicalRatingList);
+            qList.add(e);
+        }
         qNo = questionList.get(index).getQno();
         qText = questionList.get(index).getQtext();
         qNo2 = questionList.get(index + 1).getQno();
@@ -386,12 +418,12 @@ public class Feedback2013QuestionController implements Serializable {
         return ejbFacade.find(id);
     }
 
-    public List<Feedback2013Question> getQuestionList() {
-        return questionList;
+    public List<FQuestions> getqList() {
+        return qList;
     }
 
-    public void setQuestionList(List<Feedback2013Question> questionList) {
-        this.questionList = questionList;
+    public void setqList(List<FQuestions> qList) {
+        this.qList = qList;
     }
 
     @FacesConverter(forClass = Feedback2013Question.class)
