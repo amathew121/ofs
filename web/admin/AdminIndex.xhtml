@@ -11,12 +11,11 @@
     </h:head>
     <h:body>
         <h:form>
-            <h:commandButton disabled="true" action="#{feedback2013UserController.updatePassword()}" value="Update Passwords and Groups." />
+            <h:commandButton  action="#{feedback2013UserController.updatePassword()}" value="Update Passwords and Groups." />
             <br />
             <h:commandButton action="#{authBackingBean.logout()}" value="Logout"/>
 
         </h:form>
-        
         <h:form id="frm">
             <p:growl id="growl" showDetail="true"/>        
 
@@ -52,6 +51,7 @@
                 
             </p:dataTable>
         </h:form>
+        
         <br />
         <h:link outcome="/admin/course/List" value="Show All Course Items"/>
         <br />

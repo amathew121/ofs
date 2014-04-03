@@ -178,7 +178,6 @@ public class SubjectQuestionController implements Serializable {
 
         Feedback2013Student student = controller.getLoggedUser();
         short semester = student.getSemester();
-        semester--;
         subjectList = subjectController.getSubjectBySemester(student.getProgramCourse(),semester);
         sub = subjectList.get(index);
         return "CourseExit?faces-redirect=true";

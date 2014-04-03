@@ -9,49 +9,60 @@
     <ui:composition template="/common/template.xhtml">
         <ui:define name="title">
 
-            <h:outputText value="Feedback #{subjectQuestionController.sub.subjectName}"></h:outputText>
+            <h:outputText value="Course Exit Survey #{subjectQuestionController.sub.subjectName}"></h:outputText>
         </ui:define>
         <ui:define name="body"> 
             <h:form id="form">
-                                <p:growl id="messages" showDetail="true"/>  
+                <p:growl id="messages" showDetail="true"/>  
 
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
-                <div style="width: 50%; float: left;">
-                <p:dataTable value="#{subjectObjectiveController.getItemsUser(subjectQuestionController.sub)}" var="c">
-                    <p:column headerText="Subject Objective">
-                        #{c.objective}
-                    </p:column>
-                </p:dataTable>
-                </div>
-                <div style="width: 50%; float: right;">
+                <p:layout>
+                    <p:layoutUnit position="center" >
+                        
+                        <p:dataTable value="#{subjectQuestionController.subjectQuestions}" var="item">
+                            <p:column headerText="Question" >
+                                #{item.qtext}
+                            </p:column>
+                            <p:column style="" id="rating">
+                                <f:facet name="header">
+                                    <h:outputText value="Rating"/>
+                                    <br />
+                                    <h:outputText value="Lowest .... Highest"/>
 
-                <p:dataTable value="#{subjectOutcomeController.getItemsUser(subjectQuestionController.sub)}" var="c">
-                    <p:column headerText="Subject Outcome">
-                        #{c.outcome}
-                    </p:column>
-                </p:dataTable>
-                </div>
-                <p:dataTable value="#{subjectQuestionController.subjectQuestions}" var="item">
-                    <p:column headerText="Question" >
-                        #{item.qtext}
-                    </p:column>
-                    <p:column style="" id="rating">
-                        <f:facet name="header">
-                            <h:outputText value="Rating"/>
-                        </f:facet>
-                        <p:rating  value="#{item.rating}" stars="10" cancel="false" >
-                            <p:ajax event="rate" listener="#{feedback2013ExitSurveyController.onrate}" update=":form:messages" />  
-                            <p:ajax event="cancel" listener="#{feedback2013ExitSurveyController.oncancel}" update=":form:messages" />  
-                        </p:rating>
-                    </p:column>
-                </p:dataTable>
-            </h:form>
-            <h:form>
-                 <p:commandButton action="#{subjectQuestionController.nextQuestion()}" value="Next" />
 
+                                </f:facet>
+                                <p:rating  value="#{item.rating}" stars="5" cancel="false" >
+                                    <p:ajax event="rate" listener="#{feedback2013ExitSurveyController.onrate}" update=":form:messages" />  
+                                    <p:ajax event="cancel" listener="#{feedback2013ExitSurveyController.oncancel}" update=":form:messages" />  
+                                </p:rating>
+                            </p:column>
+                        </p:dataTable>
+                        <p:commandButton action="#{subjectQuestionController.nextQuestion()}" value="Next" />
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="east" resizable="true" maxSize="400">
+                        <p:panel style="width: 100%">
+                            <p:dataList value="#{subjectObjectiveController.getItemsUser(subjectQuestionController.sub)}" var="c">
+                                <f:facet name="header">
+                                    <h:outputText value="Subject Objectives" />
+                                </f:facet>
+                                #{c.objective}
+                        </p:dataList>
+                        <p:dataList value="#{subjectOutcomeController.getItemsUser(subjectQuestionController.sub)}" var="c">
+                            <f:facet name="header">
+                                <h:outputText value="Subject Outcomes" />
+                            </f:facet>
+                            #{c.outcome}
+                        </p:dataList>
+                        </p:panel>
+                    </p:layoutUnit>
+                </p:layout>
+
+                
             </h:form>
+
 
             <br />
             <br />
